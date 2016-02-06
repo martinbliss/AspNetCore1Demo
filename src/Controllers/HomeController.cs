@@ -12,7 +12,11 @@ namespace AspNet1Demo.Controllers
         {
             return View();
         }
-
+        public IActionResult Values() 
+        {
+            return Ok(new[] {"a", "b", "c"});
+        } 
+        
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
