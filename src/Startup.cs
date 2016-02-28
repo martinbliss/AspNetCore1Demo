@@ -7,6 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using src.Middleware;
 
 namespace AspNet1Demo
 {
@@ -48,6 +49,8 @@ namespace AspNet1Demo
             app.UseIISPlatformHandler();
 
             app.UseStaticFiles();
+
+            app.UseMiddleware<MyBasicAuthenticationMiddleware>();
 
             app.UseMvc(routes =>
             {
