@@ -4,15 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
+using src.Services;
 
 namespace AspNet1Demo.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IMagicService _magicService = null;
         private readonly ILogger<HomeController> _logger = null;
-        
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(IMagicService magicService, ILogger<HomeController> logger)
         {
+            _magicService = magicService;
             _logger = logger;
         }
 
@@ -23,7 +26,7 @@ namespace AspNet1Demo.Controllers
         }
         public IActionResult Values() 
         {
-            _logger.LogDebug("Values!");
+            _logger.LogInformation("################################################################");
             return Ok(new[] {"a", "b", "c"});
         } 
         

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using src.Middleware;
+using src.Services;
 
 namespace AspNet1Demo
 {
@@ -27,6 +28,8 @@ namespace AspNet1Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IMagicService, DoNothingMagicService>();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -36,6 +39,10 @@ namespace AspNet1Demo
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            var logger = loggerFactory.CreateLogger("Test");
+
+            logger.LogCritical("CONFIGURED!");
 
             if (env.IsDevelopment())
             {
