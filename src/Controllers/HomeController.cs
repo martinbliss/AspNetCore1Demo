@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNet.Authorization;
 
 namespace AspNet1Demo.Controllers
 {
@@ -21,6 +22,7 @@ namespace AspNet1Demo.Controllers
             _logger.LogDebug("IM ALIVE!");
             return View();
         }
+        [Authorize("MartinOnly")]
         public IActionResult Values() 
         {
             _logger.LogDebug("Values!");

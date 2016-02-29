@@ -3,6 +3,7 @@ using Microsoft.AspNet.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace src.Middleware
@@ -33,9 +34,15 @@ namespace src.Middleware
                 var username = credentialPair[0];
                 var password = credentialPair[1];
 
-                if (username != "MartinBliss" || password != "password")
+                if (username != password) // TODO: Please don't do this in Production :)
                     throw new AuthorizationException(401, "Invalid Credentials");
 
+                var identity = new ClaimsIdentity("basic"); // User was authenticated using Basic credentials.
+                identity.AddClaim(new Claim("name", username));
+
+                context.User = new System.Security.Claims.ClaimsPrincipal(identity); // Notify request pipeline of this user.
+                
+                
                 // Request Succeeded, continue the pipeline!
                 await _func(context);
             } catch (AuthorizationException exception)

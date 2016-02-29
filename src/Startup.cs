@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using src.Middleware;
+using src.Security;
+using Microsoft.AspNet.Authorization;
 
 namespace AspNet1Demo
 {
@@ -29,6 +31,17 @@ namespace AspNet1Demo
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddSingleton<IAuthorizationHandler, NameMatchAuthorizationHandler>();
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("MartinOnly", policy =>
+                {
+                    policy.Requirements.Add(new NameMatchRequirement("MartinBliss"));
+                });
+                
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +67,7 @@ namespace AspNet1Demo
 
             app.UseMvc(routes =>
             {
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
