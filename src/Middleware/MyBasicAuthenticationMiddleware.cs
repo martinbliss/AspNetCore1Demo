@@ -24,6 +24,9 @@ namespace src.Middleware
 
                 if (string.IsNullOrEmpty(authorizationHeader)) throw new AuthorizationException(400, "Malformed Authorization Header");
 
+                // Sample Authorization Header:
+                // Authorization: Basic MartinBliss:password
+
                 var pairs = authorizationHeader.Split(' ');
 
                 if (pairs.Length < 2) throw new AuthorizationException(400, "Malformed Authorization Header");
