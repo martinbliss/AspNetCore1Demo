@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using src.Middleware;
 using src.Security;
 using Microsoft.AspNet.Authorization;
+using src.Filters.OData;
 
 namespace AspNet1Demo
 {
@@ -30,7 +31,10 @@ namespace AspNet1Demo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ODataFilter());   
+            });
 
             services.AddSingleton<IAuthorizationHandler, NameMatchAuthorizationHandler>();
             services.AddAuthorization(config =>

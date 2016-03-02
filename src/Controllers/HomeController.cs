@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNet.Authorization;
+using src.Models;
 
 namespace AspNet1Demo.Controllers
 {
@@ -28,9 +29,13 @@ namespace AspNet1Demo.Controllers
             _logger.LogDebug("Values!");
             return Ok(new[] {"a", "b", "c"});
         } 
-        
-        public IActionResult About()
+
+        public IActionResult ODataTest(ODataModel model)
         {
+            return Ok(model);
+        }
+        public IActionResult About()
+        {   
             ViewData["Message"] = "Your application description page.";
 
             return View();
