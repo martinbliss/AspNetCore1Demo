@@ -33,14 +33,14 @@ namespace AspNet1Demo
             services.AddMvc();
 
             services.AddSingleton<IAuthorizationHandler, NameMatchAuthorizationHandler>();
-            services.AddAuthorization(config =>
+            services.AddAuthorization((Action<AuthorizationOptions>)(config =>
             {
-                config.AddPolicy("MartinOnly", policy =>
+                config.AddPolicy("MartinOnly", (Action<AuthorizationPolicyBuilder>)(policy =>
                 {
-                    policy.Requirements.Add(new NameMatchRequirement("MartinBliss"));
-                });
+                    policy.Requirements.Add((IAuthorizationRequirement)new src.Security.AccessToMelangeRequirement("MartinBliss"));
+                }));
                 
-            });
+            }));
 
         }
 

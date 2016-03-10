@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace src.Security
 {
-    public sealed class NameMatchRequirement : IAuthorizationRequirement
+    /// <summary>
+    /// He (or she) who controls the spice controls the universe!
+    /// Provides users with the name requiredName access to melange.
+    /// </summary>
+    public sealed class AccessToMelangeRequirement : IAuthorizationRequirement
     {
-        public NameMatchRequirement(string name)
+        public AccessToMelangeRequirement(string requiredName)
         {
-            Name = name;
+            RequiredName = requiredName;
         }
         
-        public string Name { get; } 
+        public string RequiredName { get; } 
     }
-
-    public sealed class NameMatchAuthorizationHandler : AuthorizationHandler<NameMatchRequirement>
+    public sealed class NameMatchAuthorizationHandler : AuthorizationHandler<AccessToMelangeRequirement>
     {
-        protected override void Handle(AuthorizationContext context, NameMatchRequirement requirement)
+        protected override void Handle(AuthorizationContext context, AccessToMelangeRequirement requirement)
         {
             var nameClaim = context.User.FindFirst("name");
             
-            if (nameClaim?.Value == requirement.Name)
+            if (nameClaim?.Value == requirement.RequiredName)
             {
                 context.Succeed(requirement);
-            } else
-            {
-                context.Fail();
             }
         }
     }
