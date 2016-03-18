@@ -36,16 +36,7 @@ namespace AspNet1Demo
                 options.Filters.Add(new ODataFilter());   
             });
 
-            services.AddSingleton<IAuthorizationHandler, NameMatchAuthorizationHandler>();
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy("MartinOnly", policy =>
-                {
-                    policy.Requirements.Add(new NameMatchRequirement("MartinBliss"));
-                });
-                
-            });
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,9 +57,7 @@ namespace AspNet1Demo
             app.UseIISPlatformHandler();
 
             app.UseStaticFiles();
-
-            app.UseMiddleware<MyBasicAuthenticationMiddleware>();
-
+            
             app.UseMvc(routes =>
             {
                 

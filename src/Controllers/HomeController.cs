@@ -23,7 +23,6 @@ namespace AspNet1Demo.Controllers
             _logger.LogDebug("IM ALIVE!");
             return View();
         }
-        [Authorize("MartinOnly")]
         public IActionResult Values() 
         {
             _logger.LogDebug("Values!");
