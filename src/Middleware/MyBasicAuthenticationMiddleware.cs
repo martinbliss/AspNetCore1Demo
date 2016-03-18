@@ -3,14 +3,19 @@ using Microsoft.AspNet.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace src.Middleware
 {
-    public sealed class MyBasicAuthenticationMiddleware
+    /// <summary>
+    /// A bad implementation of authentication middleware. 
+    /// If the request's Authorization header's username and password match, login succeeds.
+    /// </summary>
+    public sealed class BadAuthenticationMiddleware
     {
         private readonly RequestDelegate _func = null;
-        public MyBasicAuthenticationMiddleware(RequestDelegate func)
+        public BadAuthenticationMiddleware(RequestDelegate func)
         {
             _func = func;
         }
@@ -19,22 +24,22 @@ namespace src.Middleware
         {
             try
             {
+                // Sample Authorization Header
+                // Authorization: Basic martin:martin
+
                 var authorizationHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-
-                if (string.IsNullOrEmpty(authorizationHeader)) throw new AuthorizationException(400, "Malformed Authorization Header");
-
                 var pairs = authorizationHeader.Split(' ');
-
-                if (pairs.Length < 2) throw new AuthorizationException(400, "Malformed Authorization Header");
-                if (pairs[0] != "Basic") throw new AuthorizationException(400, $"{pairs[0]} Auth is not supported. Try Basic authentication.");
-                if (!pairs[1].Contains(":")) throw new AuthorizationException(400, $"{pairs[1]} does not conform to Basic Auth spec");
-
                 var credentialPair = pairs[1].Split(':');
                 var username = credentialPair[0];
                 var password = credentialPair[1];
 
-                if (username != "MartinBliss" || password != "password")
+                if (username != password) 
                     throw new AuthorizationException(401, "Invalid Credentials");
+
+                // Login succeeded. Set the user on the request!
+                var identity = new ClaimsIdentity("basic");
+                identity.AddClaim(new Claim("name", username));
+                context.User = new ClaimsPrincipal(identity);
 
                 // Request Succeeded, continue the pipeline!
                 await _func(context);

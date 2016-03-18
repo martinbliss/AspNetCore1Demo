@@ -50,7 +50,7 @@ namespace AspNet1Demo
 
             app.UseStaticFiles();
 
-            app.UseMiddleware<MyBasicAuthenticationMiddleware>();
+            app.UseMiddleware<BadAuthenticationMiddleware>();
 
             app.UseMvc(routes =>
             {

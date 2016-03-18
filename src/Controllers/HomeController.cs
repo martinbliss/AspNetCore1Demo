@@ -18,13 +18,17 @@ namespace AspNet1Demo.Controllers
 
         public IActionResult Index()
         {
-            _logger.LogDebug("IM ALIVE!");
             return View();
         }
         public IActionResult Values() 
         {
-            _logger.LogDebug("Values!");
-            return Ok(new[] {"a", "b", "c"});
+            var result = new
+            {
+                Values = new[] { "a", "b", "c" },
+                User = this.User.FindFirst("name")?.Value ?? "(no name)"
+            };
+
+            return Ok(result);
         } 
         
         public IActionResult About()
