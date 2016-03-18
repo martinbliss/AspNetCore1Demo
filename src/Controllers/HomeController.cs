@@ -26,8 +26,7 @@ namespace AspNet1Demo.Controllers
         }
         public IActionResult Values() 
         {
-            _logger.LogInformation("################################################################");
-            return Ok(new[] {"a", "b", "c"});
+            return Ok($"Secret returned from service: {_magicService.GetSecret()}");
         } 
         
         public IActionResult About()

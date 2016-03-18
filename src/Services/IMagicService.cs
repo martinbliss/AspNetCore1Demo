@@ -7,6 +7,6 @@ namespace src.Services
 {
     public interface IMagicService
     {
-        void DoWork();
+        string GetSecret();
     }
 }
