@@ -23,6 +23,7 @@ namespace AspNet1Demo.Controllers
             return View();
         }
         [Authorize("MartinOnly")]
+        //[Authorize("BuildingAccess")]
         public IActionResult Values() 
         {
             _logger.LogDebug("Values!");

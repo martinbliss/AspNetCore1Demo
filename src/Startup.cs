@@ -32,14 +32,22 @@ namespace AspNet1Demo
             // Add framework services.
             services.AddMvc();
 
-            services.AddSingleton<IAuthorizationHandler, NameMatchAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, UserNameMatchRequirementHandler>();
+
+            //services.AddSingleton<IAuthorizationHandler, EmployeeAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler, ContractorAuthorizationHandler>();
+
             services.AddAuthorization((Action<AuthorizationOptions>)(config =>
             {
-                config.AddPolicy("MartinOnly", (Action<AuthorizationPolicyBuilder>)(policy =>
+                config.AddPolicy("MartinOnly", (policy =>
                 {
-                    policy.Requirements.Add((IAuthorizationRequirement)new src.Security.AccessToMelangeRequirement("MartinBliss"));
+                    policy.Requirements.Add(new UserNameMatchRequirement("martin"));
                 }));
-                
+
+                //config.AddPolicy("BuildingAccess", policy =>
+                //{
+                //    policy.Requirements.Add(new SecurityBadgeRequirement());
+                //});
             }));
 
         }
